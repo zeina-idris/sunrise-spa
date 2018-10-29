@@ -36,5 +36,31 @@
     <script src="./js/jqzoom.js"></script>
     <script src="./js/animatedModal.min.js"></script>
     <script src="./js/main.js"></script>
+    <!-- SEGMENTIFY BEGIN -->
+    <!-- DNS Prefetching to increase loading performance -->
+    <!-- Change second dns prefetch-url with your data center url -->
+    <link rel='dns-prefetch' href='//cdn.segmentify.com'>
+    <script type='text/javascript'> 
+      // Place this code before other javascript inside head tag 
+      (function(namespace) { 
+        window['SegmentifyTrackingObject'] = namespace; 
+        window[namespace] = window[namespace] || function () { 
+          (window[namespace].q = window[namespace].q || []) .push(arguments);
+        };
+        // Used for advanced configuration options
+        // Update following information for configuration:
+        //   * YOUR_DATA_CENTER_URL
+        //   * YOUR_WEBSITE_DOMAIN
+        window[namespace].config = {
+          'segmentifyApiUrl': 'YOUR_DATA_CENTER_URL',
+          'domain': 'localhost:8080'
+        }; 
+      }) ("Segmentify");
+
+      // Initialize Segmentify with your Api Key and change with your api key
+      Segmentify('apikey', '5563475e-df52-4f9e-95ea-a1a20ece6ec3');
+    </script>
+    <script src='//cdn.segmentify.com/segmentify.js' charset='UTF-8'></script>
+    <!-- SEGMENTIFY END -->    
   </body>
 </html>

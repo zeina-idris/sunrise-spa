@@ -1,4 +1,8 @@
-import { createAuthMiddlewareForClientCredentialsFlow, createAuthMiddlewareForPasswordFlow }
+import {
+  createAuthMiddlewareForClientCredentialsFlow,
+  createAuthMiddlewareForPasswordFlow,
+  createAuthMiddlewareForAnonymousSessionFlow,
+}
   from '@commercetools/sdk-middleware-auth/dist/commercetools-sdk-middleware-auth.cjs';
 import Vue from 'vue';
 import VueApollo from 'vue-apollo';
@@ -31,6 +35,7 @@ function createAuthLink(getClient) {
 
 function createClient() {
   const defaultAuthMiddleware = createAuthMiddlewareForClientCredentialsFlow(config.ct.auth);
+  const anonymousAuthMiddleware = createAuthMiddlewareForAnonymousSessionFlow(config.ct.auth);
 
   const { apolloClient, wsClient } = createApolloClient({
     ...defaultOptions,
@@ -39,7 +44,17 @@ function createClient() {
 
   apolloClient.wsClient = wsClient;
   apolloClient.authMiddleware = defaultAuthMiddleware;
-
+  // Add anonymous login flow
+  apolloClient.setAnonymousSession = async () => {
+    apolloClient.authMiddleware = anonymousAuthMiddleware;
+    if (apolloClient.wsClient) restartWebsockets(apolloClient.wsClient);
+    try {
+      await apolloClient.resetStore();
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('%cError on cache reset (login)', 'color: orange;', e.message);
+    }
+  };
   // Add login function
   apolloClient.login = async (username, password) => {
     apolloClient.authMiddleware = createAuthMiddlewareForPasswordFlow({

@@ -15,5 +15,8 @@ export default {
   components: {
     TheFooter,
   },
+  mounted() {
+    this.$store.dispatch('loadFromlocalStorage');
+  },
 };
 </script>

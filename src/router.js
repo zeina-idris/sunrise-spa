@@ -7,6 +7,7 @@ import ProductOverviewPage from '@/views/ProductOverviewPage.vue';
 import LoginPage from '@/views/LoginPage.vue';
 import MyAccountPage from '@/views/MyAccountPage.vue';
 import NotFoundPage from '@/views/NotFoundPage.vue';
+import Cart from '@/views/Cart.vue';
 
 Vue.use(Router);
 
@@ -40,6 +41,14 @@ const router = new Router({
       name: 'login',
       components: {
         default: LoginPage,
+        header: TheHeader,
+      },
+    },
+    {
+      path: '/cart',
+      name: 'cart',
+      components: {
+        default: Cart,
         header: TheHeader,
       },
     },
